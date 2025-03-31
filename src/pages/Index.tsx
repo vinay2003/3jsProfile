@@ -580,10 +580,10 @@ const Index = () => {
                       <div>
                         <h3 className="font-semibold mb-1">Email</h3>
                         <a
-                          href="mailto:hello@3dlab.dev"
+                          href="mailto:vinaysharma31681@gmail.com"
                           className="text-foreground/70 hover:text-primary transition-colors"
                         >
-                          hello@3dlab.dev
+                          vinaysharma31681@gmail.com
                         </a>
                       </div>
                     </div>
