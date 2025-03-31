@@ -2,11 +2,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import ThreeScene from '@/components/three/Scene';
 import Navbar from '@/components/ui/Navbar';
 import CustomCursor from '@/components/ui/CustomCursor';
 import useLocoScroll from '@/hooks/useLocoScroll';
 import { ArrowRight, Code, Users, Globe, Star, Briefcase, Mail } from 'lucide-react';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
 // Project data
 const projects = [
@@ -172,7 +176,7 @@ const Index = () => {
       }, '-=0.4');
       
     // Setup scroll-triggered animations
-    gsap.registerPlugin(ScrollTrigger);
+    // Note: ScrollTrigger is already registered at the top of the file
     
     // Animate statistics counters
     gsap.utils.toArray('.stat-number').forEach((stat: any) => {
