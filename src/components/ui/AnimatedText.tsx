@@ -27,7 +27,6 @@ const AnimatedText = ({
   className = '',
   once = true
 }: AnimatedTextProps) => {
-  // Use a more specific ref type based on the element we're rendering
   const textRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -106,14 +105,14 @@ const AnimatedText = ({
       if (tl) tl.kill();
     };
   }, [text, animation, staggerAmount, duration, delay, once]);
-  
-  // Use a dynamic component approach to properly handle the element type
-  const Component = as as keyof JSX.IntrinsicElements;
+
+  // Create a component dynamically
+  const DynamicComponent = as;
   
   return (
-    <Component ref={textRef} className={className}>
-      {text}
-    </Component>
+    <div ref={textRef} className={className}>
+      <DynamicComponent>{text}</DynamicComponent>
+    </div>
   );
 };
 
