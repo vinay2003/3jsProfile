@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
@@ -12,18 +11,20 @@ interface Education {
   description: string;
 }
 
+interface Experience {
+  jobTitle: string;
+  company: string;
+  duration: string;
+  location: string;
+  description: string;
+}
+
 const educationData: Education[] = [
   {
-    degree: "Master of Fine Arts in Digital Design",
-    institution: "California Institute of Arts",
-    year: "2018-2020",
-    description: "Specialized in interactive 3D design and immersive digital experiences with focus on Three.js and WebGL."
-  },
-  {
-    degree: "Bachelor of Design in Interactive Media",
-    institution: "Royal College of Art & Design",
-    year: "2014-2018",
-    description: "Studied interaction design, user experience, and front-end development with special emphasis on creative coding."
+    degree: "Bachelor of Technology (BTech) in Computer Science",
+    institution: "GLA University",
+    year: "2020-2024",
+    description: "Specialized in front-end development, cross-browser compatibility, and responsive web design. Focused on modern web technologies, UI/UX principles, and interactive development."
   },
   {
     degree: "Certificate in Advanced Web Development",
@@ -33,11 +34,42 @@ const educationData: Education[] = [
   }
 ];
 
-const EducationSection = () => {
+const experienceData: Experience[] = [
+  {
+    jobTitle: "Frontend Developer",
+    company: "Befog AW Technologies",
+    duration: "Nov 2024 – Present",
+    location: "Lucknow, India (Hybrid)",
+    description: "Designed and implemented user interfaces using modern frontend technologies for seamless UX. Collaborated with backend teams to integrate APIs and optimize data flow. Developed responsive and visually appealing web applications."
+  },
+  {
+    jobTitle: "Backend Developer Intern",
+    company: "Brain Quest Consultancy and Training",
+    duration: "Oct 2024 – Nov 2024",
+    location: "Remote (Dubai, UAE)",
+    description: "Worked on API development and database management. Improved backend performance and optimized server-side logic."
+  },
+  {
+    jobTitle: "Software Engineer Intern",
+    company: "Bluestock™",
+    duration: "Aug 2024 – Sep 2024",
+    location: "Hybrid",
+    description: "Developed scalable frontend solutions using React.js and Node.js. Implemented performance optimizations for web applications."
+  },
+  {
+    jobTitle: "Software Developer Intern",
+    company: "Hindalco Industries Limited",
+    duration: "Jun 2022 – Jul 2022",
+    location: "Renukut, India (Hybrid)",
+    description: "Focused on frontend development using Tailwind CSS and HTML. Worked on internal applications for process automation."
+  }
+];
+
+const Section = ({ title, subtitle, data, isEducation }: { title: string; subtitle: string; data: any[]; isEducation: boolean }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
-  
+
   useEffect(() => {
     if (!timelineRef.current || !isInView) return;
     
@@ -69,8 +101,7 @@ const EducationSection = () => {
   }, [isInView]);
 
   return (
-    <section id="education" className="py-24 bg-card relative overflow-hidden">
-      {/* Background decoration */}
+    <section id={title.toLowerCase().replace(/\s/g, '-')} className="py-24 bg-card relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full">
         <div className="absolute top-0 right-0 w-1/3 h-2/3 bg-primary/5 rounded-full blur-[100px] transform translate-x-1/2 -translate-y-1/3"></div>
         <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-accent/5 rounded-full blur-[80px] transform -translate-x-1/3 translate-y-1/4"></div>
@@ -78,19 +109,17 @@ const EducationSection = () => {
       
       <div className="container mx-auto px-6 relative z-10" ref={sectionRef}>
         <SectionHeading 
-          title="Education & Certifications" 
-          subtitle="My academic journey that shaped my skills and expertise in interactive design"
+          title={title}
+          subtitle={subtitle}
         />
         
         <div className="mt-12 flex flex-col items-center" ref={timelineRef}>
-          {/* Timeline line */}
-          <div className="relative w-1 bg-muted/30 h-full absolute left-1/2 transform -translate-x-1/2">
+          <div className="w-1 bg-muted/30 h-full absolute left-1/2 transform -translate-x-1/2">
             <div className="timeline-line absolute top-0 left-0 w-full bg-gradient-to-b from-primary to-accent h-0"></div>
           </div>
           
-          {/* Timeline content */}
           <div className="relative z-10 w-full max-w-4xl">
-            {educationData.map((item, index) => (
+            {data.map((item, index) => (
               <motion.div
                 key={index}
                 className={`mb-16 flex ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center`}
@@ -98,26 +127,23 @@ const EducationSection = () => {
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
               >
-                {/* Timeline point */}
                 <div className="mx-auto md:mx-0 flex-shrink-0 relative">
                   <div className="timeline-point w-5 h-5 rounded-full border-4 border-primary bg-background shadow-lg transform scale-0 opacity-0"></div>
                 </div>
                 
-                {/* Content */}
                 <div 
                   className={`w-full md:w-5/12 bg-background/40 backdrop-blur-sm p-6 rounded-lg border border-border shadow-lg ${
                     index % 2 === 0 ? 'md:ml-8' : 'md:mr-8'
                   }`}
                 >
-                  <h3 className="text-xl font-bold text-primary">{item.degree}</h3>
+                  <h3 className="text-xl font-bold text-primary">{isEducation ? item.degree : item.jobTitle}</h3>
                   <div className="flex flex-col md:flex-row justify-between md:items-center mt-2 mb-3">
-                    <div className="text-lg">{item.institution}</div>
-                    <div className="text-muted-foreground">{item.year}</div>
+                    <div className="text-lg">{isEducation ? item.institution : item.company}</div>
+                    <div className="text-muted-foreground">{isEducation ? item.year : item.duration}</div>
                   </div>
                   <p className="text-foreground/70">{item.description}</p>
                 </div>
                 
-                {/* Spacer for alternate layout */}
                 <div className="hidden md:block w-5/12"></div>
               </motion.div>
             ))}
@@ -128,4 +154,21 @@ const EducationSection = () => {
   );
 };
 
-export default EducationSection;
+const EducationExperience = () => (
+  <>
+    <Section 
+      title="Education & Certifications" 
+      subtitle="My academic journey that shaped my skills and expertise in interactive design"
+      data={educationData} 
+      isEducation={true}
+    />
+    <Section 
+      title="Experience" 
+      subtitle="A journey of crafting interactive and visually compelling digital experiences"
+      data={experienceData} 
+      isEducation={false}
+    />
+  </>
+);
+
+export default EducationExperience;

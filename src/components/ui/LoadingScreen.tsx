@@ -73,7 +73,7 @@ const LoadingScreen = ({
             className="w-full max-w-md px-6"
           >
             <div className="text-5xl font-bold mb-8 text-center">
-              3D<span className="text-accent">Lab</span>
+              Vinay<span className="text-accent">Sharma</span>
             </div>
             
             <LiquidLoader progress={progress} height={180} />

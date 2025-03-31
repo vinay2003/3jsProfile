@@ -1,69 +1,65 @@
-# Welcome to your Lovable project
+# Vite + React + ShadCN + TypeScript
 
-## Project info
+This project is a modern front-end setup using Vite, React, TypeScript, and ShadCN UI components. It incorporates Radix UI, TailwindCSS, Three.js for 3D rendering, GSAP for animations, and other powerful tools.
 
-**URL**: https://lovable.dev/projects/785cd204-1881-4ad1-83fd-0f196ba5bce8
+## Features
 
-## How can I edit this code?
+- **Vite** for fast development and optimized builds
+- **React 18** with TypeScript support
+- **ShadCN** (Radix UI components)
+- **Three.js & React-Three-Fiber** for 3D elements
+- **GSAP & Framer Motion** for animations
+- **TailwindCSS** with additional utilities
+- **React Hook Form & Zod** for form handling and validation
+- **TanStack React Query** for state management
+- **Recharts** for data visualization
+- **Embla Carousel** for sliders
+- **Lucide React** for modern icons
 
-There are several ways of editing your application.
+## Installation
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/785cd204-1881-4ad1-83fd-0f196ba5bce8) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Clone the repository and install dependencies:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+npm install
 ```
 
-**Edit a file directly in GitHub**
+## Scripts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `npm run dev` - Start the development server
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run lint` - Run ESLint for code quality
+- `npm run preview` - Preview the built application
 
-**Use GitHub Codespaces**
+## Tech Stack
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Frontend:** React, TypeScript, Vite, TailwindCSS
+- **UI Components:** ShadCN, Radix UI
+- **Animations:** Framer Motion, GSAP
+- **3D & Graphics:** Three.js, React-Three-Fiber, @react-spring/three
+- **Forms & Validation:** React Hook Form, Zod
+- **State Management:** TanStack React Query
+- **Utilities:** clsx, tailwind-merge, date-fns
+- **Linting & Formatting:** ESLint, TypeScript
 
-## What technologies are used for this project?
+## Folder Structure
 
-This project is built with .
+```plaintext
+📂 src
+ ├── 📂 components  # Reusable UI components
+ ├── 📂 pages       # Page-level components
+ ├── 📂 hooks       # Custom React hooks
+ ├── 📂 utils       # Helper functions
+ ├── 📂 styles      # Global styles and Tailwind setup
+ ├── 📂 assets      # Static assets
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Contribution
 
-## How can I deploy this project?
+Feel free to fork, modify, and submit a PR if you want to improve the project!
 
-Simply open [Lovable](https://lovable.dev/projects/785cd204-1881-4ad1-83fd-0f196ba5bce8) and click on Share -> Publish.
+## License
 
-## I want to use a custom domain - is that possible?
+This project is licensed under the MIT License.
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)

@@ -76,7 +76,7 @@ const Navbar = () => {
             className="z-50"
           >
             <Link to="/" className="text-2xl font-bold tracking-tighter text-primary interactive">
-              3D<span className="text-accent">Lab</span>
+              Vinay<span className="text-accent">Sharma</span>
             </Link>
           </motion.div>
           
