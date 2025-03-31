@@ -136,6 +136,7 @@ const Hero = ({
               size="lg" 
               hoverEffect="shine"
               className="px-8 font-medium"
+              data-cursor-text="View Projects"
             >
               Explore Projects
             </AnimatedButton>
@@ -145,6 +146,7 @@ const Hero = ({
               size="lg"
               hoverEffect="slide" 
               className="px-8 font-medium"
+              data-cursor-text="Contact"
             >
               Get in Touch
             </AnimatedButton>
