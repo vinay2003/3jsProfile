@@ -2,8 +2,10 @@
 import { useEffect } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScrollToPlugin from 'gsap/ScrollToPlugin';
 
-gsap.registerPlugin(ScrollTrigger);
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function useLocoScroll(start: boolean) {
   useEffect(() => {
@@ -19,7 +21,7 @@ export default function useLocoScroll(start: boolean) {
       // Update ScrollTrigger
       updateScrollTrigger();
       
-      // Initialize simple scroll animations
+      // Standard fade-in animations
       gsap.utils.toArray('.fade-in').forEach((element: any) => {
         gsap.fromTo(
           element,
@@ -35,6 +37,48 @@ export default function useLocoScroll(start: boolean) {
             scrollTrigger: {
               trigger: element,
               start: 'top bottom-=100',
+              toggleActions: 'play none none reset'
+            }
+          }
+        );
+      });
+      
+      // Text reveal animations
+      gsap.utils.toArray('.text-reveal').forEach((element: any) => {
+        gsap.fromTo(
+          element,
+          {
+            clipPath: 'inset(0 100% 0 0)'
+          },
+          {
+            clipPath: 'inset(0 0% 0 0)',
+            duration: 1.2,
+            ease: 'power4.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom-=100',
+              toggleActions: 'play none none reset'
+            }
+          }
+        );
+      });
+      
+      // Image scale animations
+      gsap.utils.toArray('.image-scale').forEach((element: any) => {
+        gsap.fromTo(
+          element,
+          { 
+            scale: 1.2,
+            autoAlpha: 0
+          },
+          { 
+            scale: 1,
+            autoAlpha: 1,
+            duration: 1.5, 
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom-=50',
               toggleActions: 'play none none reset'
             }
           }
@@ -70,9 +114,7 @@ export default function useLocoScroll(start: boolean) {
       gsap.utils.toArray('.parallax').forEach((element: any) => {
         gsap.fromTo(
           element, 
-          { 
-            y: 0 
-          },
+          { y: 0 },
           {
             y: -50,
             ease: 'none',
@@ -81,6 +123,75 @@ export default function useLocoScroll(start: boolean) {
               start: 'top bottom',
               end: 'bottom top',
               scrub: true
+            }
+          }
+        );
+      });
+      
+      // Horizontal scroll sections
+      gsap.utils.toArray('.horizontal-scroll').forEach((element: any) => {
+        const items = element.querySelectorAll('.scroll-item');
+        if (items.length > 0) {
+          const scrollDistance = items[0].offsetWidth * (items.length - 1);
+          
+          gsap.to(items, {
+            x: `-${scrollDistance}px`,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top center',
+              end: `+=${scrollDistance + 500}`,
+              pin: true,
+              scrub: 1
+            }
+          });
+        }
+      });
+      
+      // Split text animation
+      gsap.utils.toArray('.split-text').forEach((element: any) => {
+        const text = element.textContent;
+        element.textContent = '';
+        
+        for (let i = 0; i < text.length; i++) {
+          const span = document.createElement('span');
+          span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+          span.style.display = 'inline-block';
+          span.style.opacity = '0';
+          element.appendChild(span);
+        }
+        
+        const chars = element.querySelectorAll('span');
+        
+        gsap.to(chars, {
+          opacity: 1,
+          stagger: 0.03,
+          duration: 0.5,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: element,
+            start: 'top bottom-=100',
+            toggleActions: 'play none none reset'
+          }
+        });
+      });
+      
+      // Counter animation
+      gsap.utils.toArray('.count-up').forEach((element: any) => {
+        const target = parseInt(element.getAttribute('data-target'), 10);
+        
+        gsap.fromTo(
+          element, 
+          { innerText: 0 },
+          {
+            innerText: target,
+            duration: 2,
+            ease: 'power2.out',
+            snap: { innerText: 1 },
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom-=150',
+              toggleActions: 'play none none reset'
             }
           }
         );
