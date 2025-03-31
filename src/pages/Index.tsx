@@ -3,11 +3,14 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import ThreeScene from '@/components/three/Scene';
 import Navbar from '@/components/ui/Navbar';
-import CustomCursor from '@/components/ui/CustomCursor';
+import AdvancedCursor from '@/components/ui/AdvancedCursor';
 import useLocoScroll from '@/hooks/useLocoScroll';
 import { ArrowRight, Code, Users, Globe, Star, Briefcase, Mail } from 'lucide-react';
+import AnimatedText from '@/components/ui/AnimatedText';
+import AnimatedButton from '@/components/ui/AnimatedButton';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Hero from '@/components/sections/Hero';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -96,10 +99,6 @@ const Index = () => {
     offset: ["start start", "end end"] 
   });
   
-  // Parallax effects
-  const yPosAnim = useTransform(scrollYProgress, [0, 1], [0, 300]);
-  const opacityAnim = useTransform(scrollYProgress, [0, 0.2, 0.3], [1, 0.5, 0]);
-  
   // Start scroll animations once page is loaded
   useLocoScroll(!isLoading);
   
@@ -124,12 +123,6 @@ const Index = () => {
     return () => clearInterval(timer);
   }, []);
   
-  useEffect(() => {
-    if (!isLoading) {
-      initAnimations();
-    }
-  }, [isLoading]);
-  
   // Animate testimonials
   useEffect(() => {
     if (!isLoading) {
@@ -142,64 +135,6 @@ const Index = () => {
       return () => clearInterval(interval);
     }
   }, [isLoading]);
-  
-  const initAnimations = () => {
-    // Hero section animations
-    const heroTimeline = gsap.timeline();
-    
-    heroTimeline
-      .from('.hero-title .word', {
-        opacity: 0, 
-        y: 100, 
-        stagger: 0.1,
-        duration: 1.2,
-        ease: 'power4.out'
-      })
-      .from('.hero-subtitle', {
-        opacity: 0, 
-        y: 20, 
-        duration: 1,
-        ease: 'power3.out'
-      }, '-=0.8')
-      .from('.hero-buttons .btn', {
-        opacity: 0, 
-        y: 20, 
-        stagger: 0.2,
-        duration: 0.8,
-        ease: 'power3.out'
-      }, '-=0.7')
-      .from('.scroll-indicator', {
-        opacity: 0,
-        y: -20,
-        duration: 0.8,
-        ease: 'power2.out'
-      }, '-=0.4');
-      
-    // Setup scroll-triggered animations
-    // Note: ScrollTrigger is already registered at the top of the file
-    
-    // Animate statistics counters
-    gsap.utils.toArray('.stat-number').forEach((stat: any) => {
-      const target = parseInt(stat.getAttribute('data-value'), 10);
-      
-      gsap.to(stat, {
-        innerText: target,
-        duration: 2,
-        snap: { innerText: 1 },
-        scrollTrigger: {
-          trigger: stat,
-          start: 'top bottom-=100',
-        },
-      });
-    });
-  };
-  
-  // Split text into words for hero animation
-  const splitText = (text: string) => {
-    return text.split(' ').map((word, i) => (
-      <span key={i} className="word inline-block mr-[0.2em]">{word}</span>
-    ));
-  };
   
   if (isLoading) {
     return (
@@ -234,79 +169,11 @@ const Index = () => {
   
   return (
     <div ref={scrollRef} className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <CustomCursor />
+      <AdvancedCursor />
       <Navbar />
       
       {/* Hero Section */}
-      <section className="h-screen flex items-center relative overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 w-full h-full"
-          style={{ y: yPosAnim, opacity: opacityAnim }}
-        >
-          <ThreeScene className="w-full h-full" />
-        </motion.div>
-        
-        <div className="container mx-auto px-6 z-10 relative pt-20">
-          <div className="max-w-4xl">
-            <h1 className="hero-title text-5xl md:text-7xl font-bold tracking-tight mb-8">
-              {splitText("Creating Immersive Digital Experiences")}
-            </h1>
-            
-            <p className="hero-subtitle text-xl md:text-2xl text-foreground/70 mb-12 max-w-xl">
-              Combining Three.js, GSAP, and Framer Motion to build captivating interactive web environments.
-            </p>
-            
-            <div className="hero-buttons flex flex-wrap gap-4">
-              <motion.a 
-                href="#projects"
-                className="btn bg-primary text-primary-foreground px-8 py-4 rounded-md text-lg font-medium hover:bg-primary/90 interactive flex items-center"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-              >
-                View Projects
-                <ArrowRight className="ml-2" size={18} />
-              </motion.a>
-              
-              <motion.a 
-                href="#contact"
-                className="btn border-2 border-foreground/20 hover:border-primary text-foreground px-8 py-4 rounded-md text-lg font-medium interactive"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-              >
-                Get in Touch
-              </motion.a>
-            </div>
-          </div>
-        </div>
-        
-        <div className="scroll-indicator absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
-          <p className="text-foreground/70 mb-2 text-sm">Scroll to discover</p>
-          <motion.div 
-            className="w-5 h-10 border-2 border-foreground/30 rounded-full flex justify-center pt-2"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ 
-              duration: 1.5, 
-              repeat: Infinity,
-              repeatType: 'loop'
-            }}
-          >
-            <motion.div 
-              className="w-1 h-1 bg-primary rounded-full"
-              animate={{ 
-                y: [0, 15, 0],
-                opacity: [0.5, 1, 0.5]
-              }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity,
-                repeatType: 'loop'
-              }}
-            />
-          </motion.div>
-        </div>
-      </section>
+      <Hero />
       
       {/* Stats Section */}
       <section className="py-20 bg-card">
@@ -332,38 +199,48 @@ const Index = () => {
       {/* About Section */}
       <section id="about" className="py-24">
         <div className="container mx-auto px-6">
+          <SectionHeading 
+            title="About Me" 
+            subtitle="I create immersive digital experiences with cutting-edge web technologies" 
+          />
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="fade-in">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-reveal">About Me</h2>
               <div className="space-y-4">
-                <p className="text-foreground/80">
-                  I'm a creative developer specializing in interactive 3D web experiences that push the boundaries of what's possible in the browser.
-                </p>
-                <p className="text-foreground/80">
-                  With a background in both design and development, I bridge the gap between stunning visuals and technical excellence, creating memorable digital experiences that engage and inspire.
-                </p>
-                <p className="text-foreground/80">
-                  My work combines cutting-edge technologies like Three.js, GSAP, and Framer Motion to deliver immersive interactions and fluid animations that make each project unique.
-                </p>
+                <AnimatedText 
+                  text="I'm a creative developer specializing in interactive 3D web experiences that push the boundaries of what's possible in the browser."
+                  animation="lines"
+                  className="text-foreground/80"
+                />
+                <AnimatedText 
+                  text="With a background in both design and development, I bridge the gap between stunning visuals and technical excellence, creating memorable digital experiences that engage and inspire."
+                  animation="lines"
+                  delay={0.2}
+                  className="text-foreground/80"
+                />
+                <AnimatedText 
+                  text="My work combines cutting-edge technologies like Three.js, GSAP, and Framer Motion to deliver immersive interactions and fluid animations that make each project unique."
+                  animation="lines"
+                  delay={0.4}
+                  className="text-foreground/80"
+                />
               </div>
               
               <div className="mt-8 flex gap-4">
-                <motion.a 
-                  href="#skills"
-                  className="bg-secondary hover:bg-secondary/80 text-foreground px-6 py-3 rounded-md interactive"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <AnimatedButton 
+                  variant="secondary" 
+                  hoverEffect="shine"
+                  className="interactive"
                 >
                   My Skills
-                </motion.a>
-                <motion.a 
-                  href="#projects"
-                  className="bg-transparent border border-border hover:border-primary text-foreground px-6 py-3 rounded-md interactive"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                </AnimatedButton>
+                <AnimatedButton 
+                  variant="outline" 
+                  hoverEffect="slide" 
+                  className="interactive"
                 >
                   View Work
-                </motion.a>
+                </AnimatedButton>
               </div>
             </div>
             
@@ -410,14 +287,12 @@ const Index = () => {
       {/* Skills Section */}
       <section id="skills" className="py-24 bg-card">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16 fade-in">
-            <h2 className="text-4xl font-bold mb-4">My Skills</h2>
-            <p className="text-foreground/70 max-w-2xl mx-auto">
-              I specialize in these technologies and constantly expand my expertise to create cutting-edge web experiences.
-            </p>
-          </div>
+          <SectionHeading 
+            title="My Skills" 
+            subtitle="I specialize in these technologies and constantly expand my expertise to create cutting-edge web experiences."
+          />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 stagger-fade-in">
             {skills.map((skillGroup, index) => (
               <motion.div 
                 key={index}
@@ -445,12 +320,10 @@ const Index = () => {
       {/* Projects Section */}
       <section id="projects" className="py-24">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16 fade-in">
-            <h2 className="text-4xl font-bold mb-4">Featured Projects</h2>
-            <p className="text-foreground/70 max-w-2xl mx-auto">
-              Explore some of my interactive 3D web experiences that push the boundaries of what's possible on the web.
-            </p>
-          </div>
+          <SectionHeading 
+            title="Featured Projects" 
+            subtitle="Explore some of my interactive 3D web experiences that push the boundaries of what's possible on the web."
+          />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {projects.map((project, index) => (
@@ -465,7 +338,7 @@ const Index = () => {
               >
                 {/* Project Image with Gradient Overlay */}
                 <div 
-                  className="absolute inset-0 bg-cover bg-center z-0"
+                  className="absolute inset-0 bg-cover bg-center z-0 mask-reveal"
                   style={{ backgroundImage: `url(${project.image})` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent z-10" />
@@ -509,14 +382,13 @@ const Index = () => {
           </div>
           
           <div className="mt-12 text-center">
-            <motion.a
-              href="/projects"
-              className="inline-block border border-border hover:border-primary px-8 py-3 rounded-md text-lg font-medium interactive"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <AnimatedButton 
+              variant="outline" 
+              hoverEffect="expand" 
+              className="interactive px-8"
             >
               View All Projects
-            </motion.a>
+            </AnimatedButton>
           </div>
         </div>
       </section>
@@ -524,12 +396,10 @@ const Index = () => {
       {/* Testimonials Section */}
       <section className="py-24 bg-card">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16 fade-in">
-            <h2 className="text-4xl font-bold mb-4">Client Testimonials</h2>
-            <p className="text-foreground/70 max-w-2xl mx-auto">
-              What clients say about working with me and the experiences I create.
-            </p>
-          </div>
+          <SectionHeading 
+            title="Client Testimonials" 
+            subtitle="What clients say about working with me and the experiences I create."
+          />
           
           <div className="max-w-3xl mx-auto">
             <div className="relative h-[300px]">
@@ -583,13 +453,17 @@ const Index = () => {
       
       {/* Contact Section */}
       <section id="contact" className="py-24">
-        <div className="container mx-auto px-6 fade-in">
+        <div className="container mx-auto px-6">
+          <SectionHeading 
+            title="Let's Work Together" 
+            subtitle="Ready to bring your ideas to life? Let's create something amazing together."
+          />
+        
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div>
-                <h2 className="text-4xl font-bold mb-6">Let's Work Together</h2>
+              <div className="fade-in">
                 <p className="text-foreground/70 text-xl mb-8 max-w-md">
-                  Ready to bring your ideas to life? Let's create something amazing together.
+                  Open for freelance opportunities and collaborations. Get in touch and let's discuss your project.
                 </p>
                 
                 <div className="space-y-6">
@@ -623,7 +497,7 @@ const Index = () => {
                     <motion.a
                       key={i}
                       href="#"
-                      className="h-10 w-10 rounded-full bg-foreground/10 flex items-center justify-center hover:bg-primary/20 transition-colors"
+                      className="h-10 w-10 rounded-full bg-foreground/10 flex items-center justify-center hover:bg-primary/20 transition-colors interactive"
                       whileHover={{ y: -3 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -667,15 +541,13 @@ const Index = () => {
                       className="w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
-                  <motion.button
+                  <AnimatedButton
                     type="submit"
-                    className="w-full bg-primary text-primary-foreground py-3 rounded-md font-medium hover:bg-primary/90 interactive"
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    className="w-full py-3 font-medium interactive"
+                    hoverEffect="shine"
                   >
                     Send Message
-                  </motion.button>
+                  </AnimatedButton>
                 </form>
               </motion.div>
             </div>

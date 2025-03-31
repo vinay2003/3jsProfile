@@ -32,8 +32,8 @@ export default function useLocoScroll(start: boolean) {
           { 
             autoAlpha: 1,
             y: 0,
-            duration: 1, 
-            ease: 'power2.out',
+            duration: 1.2, 
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: element,
               start: 'top bottom-=100',
@@ -52,7 +52,7 @@ export default function useLocoScroll(start: boolean) {
           },
           {
             clipPath: 'inset(0 0% 0 0)',
-            duration: 1.2,
+            duration: 1.5,
             ease: 'power4.out',
             scrollTrigger: {
               trigger: element,
@@ -74,7 +74,7 @@ export default function useLocoScroll(start: boolean) {
           { 
             scale: 1,
             autoAlpha: 1,
-            duration: 1.5, 
+            duration: 1.8, 
             ease: 'expo.out',
             scrollTrigger: {
               trigger: element,
@@ -93,12 +93,12 @@ export default function useLocoScroll(start: boolean) {
           items,
           { 
             autoAlpha: 0,
-            y: 20
+            y: 30
           },
           { 
             autoAlpha: 1,
             y: 0,
-            stagger: 0.1,
+            stagger: 0.15,
             duration: 0.8,
             ease: 'power2.out',
             scrollTrigger: {
@@ -116,7 +116,7 @@ export default function useLocoScroll(start: boolean) {
           element, 
           { y: 0 },
           {
-            y: -50,
+            y: -80,
             ease: 'none',
             scrollTrigger: {
               trigger: element.parentNode,
@@ -191,6 +191,51 @@ export default function useLocoScroll(start: boolean) {
             scrollTrigger: {
               trigger: element,
               start: 'top bottom-=150',
+              toggleActions: 'play none none reset'
+            }
+          }
+        );
+      });
+
+      // Mask reveal (like Uniqualitech)
+      gsap.utils.toArray('.mask-reveal').forEach((element: any) => {
+        gsap.fromTo(
+          element,
+          {
+            clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
+          },
+          {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            duration: 1.5,
+            ease: 'power4.inOut',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom-=100',
+              toggleActions: 'play none none reset'
+            }
+          }
+        );
+      });
+
+      // Text lines reveal (similar to Uniqualitech)
+      gsap.utils.toArray('.lines-reveal').forEach((element: any) => {
+        const lines = element.querySelectorAll('.line');
+        
+        gsap.fromTo(
+          lines,
+          {
+            y: 100,
+            opacity: 0
+          },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom-=100',
               toggleActions: 'play none none reset'
             }
           }
