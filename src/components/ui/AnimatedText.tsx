@@ -3,6 +3,9 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
+// Register ScrollTrigger to prevent the "ScrollTrigger is not defined" error
+gsap.registerPlugin(ScrollTrigger);
+
 interface AnimatedTextProps {
   text: string;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
@@ -16,7 +19,7 @@ interface AnimatedTextProps {
 
 const AnimatedText = ({
   text,
-  as: Element = 'p',
+  as = 'p',
   animation = 'words',
   staggerAmount = 0.05,
   duration = 0.8,
@@ -24,7 +27,8 @@ const AnimatedText = ({
   className = '',
   once = true
 }: AnimatedTextProps) => {
-  const textRef = useRef<HTMLElement>(null);
+  // Use a more specific ref type based on the element we're rendering
+  const textRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     if (!textRef.current) return;
@@ -103,10 +107,13 @@ const AnimatedText = ({
     };
   }, [text, animation, staggerAmount, duration, delay, once]);
   
+  // Use a dynamic component approach to properly handle the element type
+  const Component = as as keyof JSX.IntrinsicElements;
+  
   return (
-    <Element ref={textRef} className={className}>
+    <Component ref={textRef} className={className}>
       {text}
-    </Element>
+    </Component>
   );
 };
 
